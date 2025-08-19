@@ -59,6 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'must enter value';
                           }
+                          return null;
                         },
                       ),
                       SizedBox(height: 15),
@@ -105,6 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'must enter value';
                           }
+                          return null;
                         },
                       ),
                       SizedBox(height: 15),
@@ -167,13 +169,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value == null || value.isEmpty) {
                             return 'must enter value';
                           }
+
+                          return null;
                         },
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: 15),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
