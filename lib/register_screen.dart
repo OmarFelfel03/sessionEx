@@ -1,24 +1,24 @@
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
-import 'package:task10/forgot_screen.dart';
-import 'package:task10/navigation_screen.dart';
-import 'package:task10/register_screen.dart';
+import 'package:task10/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  static String id = '/login';
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+  static String id = '/register';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   bool _obsecurePassword = true;
+  bool _obsecurePassword2 = true;
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                SizedBox(height: 30),
                 Container(
                   width: double.infinity,
                   height: 100,
@@ -43,6 +42,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   key: formKey,
                   child: Column(
                     children: [
+                      TextFormField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter Name',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              nameController.clear();
+                            },
+                            icon: Icon(Icons.close),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'must enter value';
+                          }
+                        },
+                      ),
+                      SizedBox(height: 15),
                       TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -66,6 +85,26 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
 
                           return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: phoneController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.phone),
+                          labelText: 'Phone Number',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              phoneController.clear();
+                            },
+                            icon: Icon(Icons.close),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'must enter value';
+                          }
                         },
                       ),
                       SizedBox(height: 15),
@@ -100,19 +139,37 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        obscureText: _obsecurePassword2,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.lock),
+                          labelText: 'Confirm Password',
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obsecurePassword2 = !_obsecurePassword2;
+                              });
+                            },
+                            icon: Icon(
+                              _obsecurePassword2
+                                  ? Icons.visibility_off
+                                  : Icons.remove_red_eye,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value != passwordController.text) {
+                            return "passwords don't match ";
+                          }
+
+                          if (value == null || value.isEmpty) {
+                            return 'must enter value';
+                          }
+                        },
+                      ),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 196),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, ForgotScreen.id);
-                    },
-                    child: Text(
-                      'Forgot Password',
-                      style: TextStyle(color: Colors.red),
-                    ),
                   ),
                 ),
                 SizedBox(height: 15),
@@ -128,26 +185,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, NavigationScreen.id);
+                        Navigator.pushNamed(context, LoginScreen.id);
                       }
 
                       emailController.clear();
                       passwordController.clear();
                     },
-                    child: Text('Log In'),
+                    child: Text('Create Account'),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't Have an Account? "),
+                    Text("Already an Account? "),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.id);
+                        Navigator.pushNamed(context, LoginScreen.id);
                       },
                       child: Text(
-                        'Sign Up',
+                        'Log In',
                         style: TextStyle(color: Colors.red),
                       ),
                     ),

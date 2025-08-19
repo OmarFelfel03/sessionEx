@@ -1,24 +1,18 @@
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
-import 'package:task10/forgot_screen.dart';
-import 'package:task10/navigation_screen.dart';
-import 'package:task10/register_screen.dart';
+import 'package:task10/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  static String id = '/login';
-  const LoginScreen({super.key});
+class ForgotScreen extends StatefulWidget {
+  const ForgotScreen({super.key});
+  static String id = '/forgotScreen';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotScreen> createState() => _ForgotScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _obsecurePassword = true;
-
+class _ForgotScreenState extends State<ForgotScreen> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                SizedBox(height: 30),
+                SizedBox(height: 90),
                 Container(
                   width: double.infinity,
                   height: 100,
@@ -68,51 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 15),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: _obsecurePassword,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obsecurePassword = !_obsecurePassword;
-                              });
-                            },
-                            icon: Icon(
-                              _obsecurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.remove_red_eye,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'please enter password';
-                          }
-                          if (value.length < 8) {
-                            return 'Passeord must be at least 8 characters';
-                          }
-
-                          return null;
-                        },
-                      ),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 196),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, ForgotScreen.id);
-                    },
-                    child: Text(
-                      'Forgot Password',
-                      style: TextStyle(color: Colors.red),
-                    ),
                   ),
                 ),
                 SizedBox(height: 15),
@@ -128,26 +78,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, NavigationScreen.id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('email sent successfully'),
+                            duration: Duration(seconds: 3),
+                          ),
+                        );
                       }
 
                       emailController.clear();
-                      passwordController.clear();
                     },
-                    child: Text('Log In'),
+                    child: Text('Send Email'),
                   ),
                 ),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't Have an Account? "),
+                    Text("Ready to log in ?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.id);
+                        Navigator.pushNamed(context, LoginScreen.id);
                       },
                       child: Text(
-                        'Sign Up',
+                        'Log In',
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
